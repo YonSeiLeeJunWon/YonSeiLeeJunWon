@@ -1,48 +1,38 @@
 <img src="score.png">
 
-from collections import Counter
-from datetime import datetime
-import os
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
+name: Python application
 
-def count_files():
-    files_info = []
-    total_file_count = 0
-    directory_list = [directory for directory in os.listdir("./") if "Folder" in directory]
-    for directory in directory_list:
-        file_list = os.listdir(f"./{directory}")
-        file_count = len(file_list)
-        temp = [directory, file_count]
-        files_info.append(temp)
-        total_file_count += file_count
-    return files_info, total_file_count
-  
-  
-def make_info(files_info, total_file_count):
-    info = f"## Files Count In Folders\nTotal File Count: {total_file_count}\n"
-    for directory_files_info in files_info:
-        temp = f"- {directory_files_info[0]}: {directory_files_info[1]}\n"
-        info += temp
-    return info
-    
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
+jobs:
+  build:
 
-def make_read_me(info):
-    return f"""# Self-Updating-Readme
-Push할 때마다 폴더 별 파일 수를 리드미에 자동으로 업데이트<br>
-Automatically update the number of files per folder to Readme whenever you push.<br><br>
-{info}
-"""
+    runs-on: ubuntu-latest
 
-
-def update_readme():
-    files_info, total_file_count = count_files()
-    info = make_info(files_info, total_file_count)
-    readme = make_read_me(info)
-    return readme
-
-
-if __name__ == "__main__":
-    readme = update_readme()
-    with open("./README.md", 'w', encoding='utf-8') as f:
-        f.write(readme)
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+    - name: Run Update Python Script 
+      run: |
+        python utils/count_files.py
+    - name: Run Update README.md File
+      run: |
+        git add .
+        git diff
+        git config --local user.email "chaerin.dev@gmail.com"
+        git config --local user.name "chaerin-dev"
+        git commit -m "Automatically Update README.md file"
+        git push
