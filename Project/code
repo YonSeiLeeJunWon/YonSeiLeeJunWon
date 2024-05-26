@@ -1,0 +1,94 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+class RecurrenceRelation:
+    def __init__(self):
+        self.coefficients = []
+        self.initial_values = []
+        self.char_eq_roots = []
+
+    def set_variables(self):
+        try:
+            n = int(input("변수의 개수를 입력하세요 (e.g., 3 for Fn=a*Fn-1+b*Fn-2+c*Fn-3): "))
+            self.coefficients = [float(input(f"계수 a{i+1}을(를) 입력하세요: ")) for i in range(n)]
+            self.initial_values = [float(input(f"초기 값 F{i+1}을(를) 입력하세요: ")) for i in range(n)]
+            print("변수가 성공적으로 지정되었습니다.")
+        except ValueError:
+            print("잘못된 입력입니다. 다시 시도해주세요.")
+
+    def compute_characteristic_equation(self):
+        if not self.coefficients:
+            print("변수 지정을 먼저 해주세요.")
+            return
+        
+        char_eq = np.poly1d([1] + [-c for c in self.coefficients])
+        self.char_eq_roots = np.roots(char_eq)
+        print(f"특성방정식: {char_eq}")
+        print(f"특성방정식의 해: {self.char_eq_roots}")
+
+    def compute_general_term(self):
+        if not self.char_eq_roots.any():
+            print("특성방정식의 해를 먼저 계산해주세요.")
+            return
+
+        n = len(self.initial_values)
+        A = np.vander(self.char_eq_roots, increasing=True).T
+        B = np.array(self.initial_values)
+        constants = np.linalg.solve(A, B)
+
+        print("점화식의 일반항 계산 결과:")
+        terms = [f"{constants[i]}*({self.char_eq_roots[i]}^n)" for i in range(n)]
+        print("Fn =", " + ".join(terms))
+
+    def compare_with_actual(self):
+        if not self.char_eq_roots.any():
+            print("점화식의 일반항을 먼저 계산해주세요.")
+            return
+
+        n = len(self.initial_values)
+        constants = np.linalg.solve(np.vander(self.char_eq_roots, increasing=True).T, np.array(self.initial_values))
+        
+        def general_term(n):
+            return sum(constants[i] * (self.char_eq_roots[i] ** n) for i in range(len(self.char_eq_roots)))
+
+        num_points = 20
+        n_values = range(num_points)
+        actual_values = []
+        for i in n_values:
+            if i < n:
+                actual_values.append(self.initial_values[i])
+            else:
+                actual_value = sum(self.coefficients[j] * actual_values[-(j + 1)] for j in range(n))
+                actual_values.append(actual_value)
+        
+        general_values = [general_term(i) for i in n_values]
+        
+        plt.plot(n_values, actual_values, label='Actual Recurrence')
+        plt.plot(n_values, general_values, label='General Term')
+        plt.legend()
+        plt.show()
+
+    def terminate(self):
+        print("코드를 종료합니다.")
+        exit()
+
+def main():
+    rr = RecurrenceRelation()
+    actions = {
+        '1': rr.set_variables,
+        '2': rr.compute_characteristic_equation,
+        '3': rr.compute_general_term,
+        '4': rr.compare_with_actual,
+        '5': rr.terminate
+    }
+
+    while True:
+        print("\n1. 변수 지정\n2. 점화식의 특성방정식 및 해 계산\n3. 점화식의 일반항 계산\n4. 실제 점화식과의 비교\n5. 종료")
+        choice = input("실행할 함수를 선택하세요: ")
+        if choice in actions:
+            actions[choice]()
+        else:
+            print("유효하지 않은 선택입니다. 다시 시도해주세요.")
+
+if __name__ == "__main__":
+    main()
