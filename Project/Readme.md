@@ -42,7 +42,7 @@ import sys
    (e) `sp.lambdify(x, fct, 'numpy')` : `x`라는 변수를 갖는 `fct` 표현식을 실제 계산에 사용할 수 있도록 파이썬 함수로 변환할 수 있다. (Ex. `f = sp.lambdify(x, sp.sin(x), 'numpy')`로 지정한다면, `f(np.pi/2)`는 1이라는 값을 갖는다.
 
    (f) eqn.subs(x, 1) : 기호변수에 특정한 값을 대입하거나, 다른 기호변수로 대체할 수 있는 메소드이다.
-   <br/> (ex. eqn=$x^2+5$ => eqn.subs(x,2)=$2^2+5=9$ / eqn.subs(x,t)=$t^2+5$
+   <br/> (ex. eqn= $x^2+5$  => eqn.subs(x,2)=$2^2+5=9$ / eqn.subs(x,t)=$t^2+5$
 
 5. sys : `sys.exit()`코드를 이용해, 프로젝트의 코드를 종료하게 만들었다.
 
