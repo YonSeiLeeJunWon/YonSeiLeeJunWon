@@ -86,4 +86,36 @@ main 함수에서의 1번 함수이다. (코드 실행 후, 1을 입력 시 해�
 이후, 각 점화식의 계수와 초기항의 값들을 입력한다.
 <br/>(ex. $n=2, a_1=1, a_2=1, F_1=1, F_2=1$으로 설정하면, $F_n=F_{n-1}+F_{n-2} / F_1=1, F_2=1$(피보나치 수열)의 선형점화식으로 설정 가능)
 
+  ### 4) compute_characteristic_equation
+  ```
+    def compute_characteristic_equation(self): #2번 특성방정식 및 해 계산 함수 : 1번 변수 저장 함수를 통해 저장한 변수를 이용해, 해당 점화식의 특성방정식을 구하고 이를 계산한다.
+        if self.coefficients==[]:
+            print("변수 지정을 먼저 해주세요.")
+            return
+
+        x = sp.symbols('x')
+        n = len(self.coefficients)
+        LHS = x**n - sum(self.coefficients[i] * x**(n-1-i) for i in range(n))
+        equation = sp.Eq(LHS, 0)
+
+        self.char_eq_roots = sp.roots(equation, x)
+
+        print(f"특성방정식: \n{LHS} = 0")
+        print(f"특성방정식의 해: {self.char_eq_roots}")
+```
+
+main 함수에서의 2번 함수이다. (코드 실행 후, 2를 입력 시 해당 함수가 실행된다.)
+
+1번 함수에서 지정한 선형점화식 변수들을 이용해서 특성방정식을 유도하고 특성방정식의 해 및 중복도를 계산하는 메소드다.
+
+만약 1번 함수를 실행하지 않고, 2번 함수를 실행할 시, 설정한 선형점화식이 없기 때문에 "변수 지정을 먼저 해주세요."라는 문구와 함께 return된다.
+
+위 코드에서, x는 기호변수 x로 작동한다. LHS는 특성방정식의 좌항으로, 설정한 선형점화식을 변수 x에 관한 식으로 변환한 뒤, 이들을 전부 좌항으로 이항한 값이다.
+<br/>(ex. $F_n=F_{n-1}+F_{n-2} (피보나치 수열)$이라면, $x^n=x^{n-1}+x^{n-2}$가 되고, LHS는 이들을 전부 좌항으로 이항한 $x^n-x^{n-1}-x^{n-2}$가 된다.)
+
+따라서, LHS=${x^n} - \sum{i=0}^n-1 self.coefficients[i]*x^{n-1-i)$로 표현된다.
+
+이에 따라, 우항은 0이 되므로 특성방정식은 sp.Eq(LHS,0)이 된다.
+
+이후, sp.roots를 통해 해당 방정식을 계산하고 특성방정식과 그 해를 출력하였다.
 
