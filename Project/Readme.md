@@ -43,5 +43,39 @@ import sys
 
 4. sys : `sys.exit()`코드를 이용해, 프로젝트의 코드를 종료하게 만들었다.
 
+본격적인 설명에 앞서, 정의한 메소드, 함수들은 RecurrenceRelation 클래스 안에 있다.
+  ### 2) __init__
+  ```
+    def __init__(self): #변수 저장
+        self.coefficients = [] # (e.g, Fn=2*F(n-1)+3*F(n-2) => self.coefficients = [2,3])
+        self.initial_values = [] # (e.g, F1=1, F2=2 => self.initial_values = [1,2])
+        self.char_eq_roots = [] # 특성방정식의 해를 저장하는 variable
+        self.general_solution = None # 점화식의 일반항을 저장하는 variab
+```
 
-  ### 2) 
+이후 후술할 메소드들에서 구한 데이터들을 각 변수들에 반환한다.
+
+self.coefficients : 선형점화식에서 이루어진 계수들을 저장하는 변수이다.
+
+(Ex. Fn=2*F(n-1),3*F(n-2)의 구조로 이루어진 선형점화식을 데이터로 갖는다면, self.coefficients = [2, 3]이 된다.)
+
+self.initial_values : 선형점화식에서 정해진 초기항들의 값들을 저장하는 변수이다.
+
+(Ex, Fn=2*F(n-1),3*F(n-2) / F1=2, F2=5 라면, self.initial_values=[2, 5]이다.
+
+self.char_eq_roots : 특성방정식의 근과 중복도를 각각 keys, values로 갖는 dictionary를 저장한다.
+
+(Ex, $F_n=-2F_{n-1)-1F_{n-2}$에서, 특성방정식의 근은 -1, 중복도는 2이다. 이때, self.char_eq_roots={-1 : 2}가 된다.
+
+self.general_solution : 점화식의 일반항을 유도하, 해당 일반항을 저장한다.
+
+  ### 3) set_variables
+  ```
+    def set_variables(self): #1번 변수 저장 함수 : 점화식 계산에 필요한 변수개수, 항의 계수, 점화식의 초기항 등을 입력하고 저장한다
+      try:
+        n = int(input("변수의 개수를 입력하세요 (ex. 2 => Fn=Fn-1+Fn-2): "))
+        self.coefficients = [sp.Rational(input(f"계수 a{i+1}을(를) 입력하세요: ")) for i in range(n)]
+        self.initial_values = [sp.Rational(input(f"F{i+1}을(를) 입력하세요: ")) for i in range(n)]
+        self.calculated_values = {i: self.initial_values[i] for i in range(n)}
+        print("변수가 성공적으로 지정되었습니다.")
+```
