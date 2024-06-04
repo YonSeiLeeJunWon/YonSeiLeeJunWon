@@ -62,7 +62,7 @@ self.initial_values : 선형점화식에서 정해진 초기항들의 값들을 
 <br/>(Ex, Fn=2*F(n-1),3*F(n-2) / F1=2, F2=5 라면, self.initial_values=[2, 5]이다.
 
 self.char_eq_roots : 특성방정식의 근과 중복도를 각각 keys, values로 갖는 dictionary를 저장한다.
-<br/>(Ex, $F_n=-2F_{n-1)-1F_{n-2}$에서, 특성방정식의 근은 -1, 중복도는 2이다. 이때, self.char_eq_roots={-1 : 2}가 된다.
+<br/>(Ex, $F_n=(-2)F_{n-1}-1F_{n-2}$에서, 특성방정식의 근은 -1, 중복도는 2이다. 이때, self.char_eq_roots={-1 : 2}가 된다.
 
 self.general_solution : 점화식의 일반항을 유도하, 해당 일반항을 저장한다.
 
