@@ -19,14 +19,20 @@
 ## 3. 코드 작성방법 및 설명
 
   ### 1) import
-  <img width="300" alt="import" src="https://github.com/SungchulLee/probability/assets/170498248/69ee685d-faca-4908-8af6-aa667c0f4fc1">
+
+import numpy as np
+import matplotlib.pyplot as plt
+import sympy as sp
+import sys
+
 <br/>1. numpy : 점화식의 일반항을 유도하고, 이를 그래프로 옮기는 코드를 작성하는 과정에서, np.arange을 이용해 x축에 변수를 추가해주었다.
 <br/>2. matplotlib.pyplot : 점화식의 일반항을 그래프로 그리는 과정에서 matplotlib 모듈을 사용하였다.
 <br/>3. sympy : 변수를 지정하고, 방정식을 설정하고, 방정식의 해를 구하기 위해 해당 모듈을 사용하였다.
-  - (a) dsdasfas
-     <br/>     (a) x = sp.symbols('n') : x를 기호변수 n으로 선언해준다. 해당 기호변수를 통해, 수식을 나타내고 이에 대한 근을 구하거나, 기호변수에 특정한 값을 대입할 수 있다.
+     <br/>    (a) x = sp.symbols('n') : x를 기호변수 n으로 선언해준다. 해당 기호변수를 통해, 수식을 나타내고 이에 대한 근을 구하거나, 기호변수에 특정한 값을 대입할 수 있다.
      <br/>    (b) sp.Eq(LHS,RHS) : 좌변에는 LHS, 우변에는 RHS으로 이루어진 등식을 만들어준다. (ex. E=sp.Eq(x^2,1) => E : x^2=1 (E라는 변수에 x^2=1을 대입한다.)
      <br/>    (c) sp.Rational(a,b) : 유리수를 분수 {a/b}로 나타낸다. sp.Rational(a)는 a로 출력된다.
      <br/>    (d) sp.solve(Eqn,x) , sp.roots(Eqn,x) : Eqn이라는 방정식에 대하여 x에 관한 해를 구한다. sp.solve(Eqn, x)는 x에 관한 해만 출력하는 반면, sp.roots(Eqn,x)는 다항식의 해를 keys, 각 해의 중복도를 values로 갖는 dictionary를 반환한다.
      <br/>    (e) sp.lambdify(x, fct, 'numpy') : x라는 변수를 갖는 fct 표현식을 실제 계산에 사용할 수 있도록 파이썬 함수로 변환할 수 있다. (Ex. f = sp.lambdify(x, sin(x), 'numpy')로 지정한다면, f(np.pi/2)는 1이라는 값을 갖는다.
-     <br/> (4) sys : sys.exit()코드를 이용해, 프로젝트의 코드를 종료하게 만들었다.
+     <br/>4. sys : sys.exit()코드를 이용해, 프로젝트의 코드를 종료하게 만들었다.
+
+  ### 2) 
