@@ -1,5 +1,5 @@
 # 주제 : 선형점화식의 일반항 유도 및 그래프 시각화 프로젝트
-img width="239" alt="F5" src="https://github.com/SungchulLee/probability/assets/170498248/0b567782-36bf-45c8-ba7e-344fb434f144"
+
                                                             2021131016 이준원
 
 ## 1. 모티베이션(프로젝트를 하게 된 동기)
@@ -295,9 +295,7 @@ if __name__ == "__main__":
   - 기존 Top down, Bottom up 방식에서 벗어나 새로운 방식으로 점화식의 특정 항의 값을 도출해낼 수 있었다. 실제로, 피보나치 수열($n=2, a_1=1, a_2=1, F_1=1, F_2=1$)의 몇가지 항에서 위 프로젝트의 결과값들을 실제 피보나치 수열의 값과 비교해 보았다.
 ```
 피보나치 수열($n=2, a_1=1, a_2=1, F_1=1, F_2=1$)에서 5번째 항의 값 비교 (위 : 프로젝트 결과값 / 아래 : 실제 점화식 결과값)
-img width="239" alt="F5" src="https://github.com/SungchulLee/probability/assets/170498248/0b567782-36bf-45c8-ba7e-344fb434f144"
 <img width="239" alt="F5" src="https://github.com/SungchulLee/probability/assets/170498248/0b567782-36bf-45c8-ba7e-344fb434f144">
-img width="239" alt="F5" src="https://github.com/SungchulLee/probability/assets/170498248/0b567782-36bf-45c8-ba7e-344fb434f144"
 <img width="207" alt="실제 F5" src="https://github.com/SungchulLee/probability/assets/170498248/07f129b3-0f0a-4af0-9a33-3f1c9bfe7a24">
 ```
 ```
@@ -306,6 +304,7 @@ img width="239" alt="F5" src="https://github.com/SungchulLee/probability/assets/
 <img width="209" alt="F35 실제" src="https://github.com/SungchulLee/probability/assets/170498248/4cd4847e-b582-462c-aa4b-e7e1db0ea3a3">
 ```
 이를 통해, 프로젝트를 통해 얻은 결과값은 정밀하다는 것을 알 수 있었다. 또한, 특성방정식이 중근을 가지는 수열($n=2, a_1=-2, a_2=-1, F_1=1, F_2=1$)의 몇가지 항에서도 실제 점화식의 결과값과 비교해 보았다.
+<img width="239" alt="F5" src="https://github.com/SungchulLee/probability/assets/170498248/0b567782-36bf-45c8-ba7e-344fb434f144">
 ```
 특성방정식이 중근을 가지는 수열($n=2, a_1=-2, a_2=-1, F_1=1, F_2=1$)에 5번째 항의 비교
 <img width="238" alt="-2 -1 1 1 중근 F5" src="https://github.com/SungchulLee/probability/assets/170498248/405b706c-4450-4e16-b356-c99c005c430f">
