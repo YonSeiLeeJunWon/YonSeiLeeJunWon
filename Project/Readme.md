@@ -119,3 +119,4 @@ main 함수에서의 2번 함수이다. (코드 실행 후, 2를 입력 시 해�
 
 이후, sp.roots를 통해 해당 방정식을 계산하고 특성방정식과 그 해를 출력하였다.
 
+$\left( \sum_{k=1}^n a_k b_k \right)^2 \leq \left( \sum_{k=1}^n a_k^2 \right) \left( \sum_{k=1}^n b_k^2 \right)$
