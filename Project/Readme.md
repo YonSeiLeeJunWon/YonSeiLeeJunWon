@@ -98,10 +98,10 @@ main 함수에서의 1번 함수이다. (코드 실행 후, 1을 입력 시 해�
 
         x = sp.symbols('x')
         n = len(self.coefficients)
-        LHS = x**n - sum(self.coefficients[i] * x**(n-1-i) for i in range(n))
-        equation = sp.Eq(LHS, 0)
+        LHS = x**n - sum(self.coefficients[i] * x**(n-1-i) for i in range(n)) #특성방정식에서의 좌항(LHS) 계산
+        equation = sp.Eq(LHS, 0) #좌항=LHS, 우항=0
 
-        self.char_eq_roots = sp.roots(equation, x)
+        self.char_eq_roots = sp.roots(equation, x) #좌항=LHS, 우항=0 인 방정식의 해 계산 (이때, self.char_eq_roots는 해를 keys, 중복도를 values로 갖는 딕셔너리)
 
         print(f"특성방정식: \n{LHS} = 0")
         print(f"특성방정식의 해: {self.char_eq_roots}")
@@ -129,26 +129,24 @@ main 함수에서의 2번 함수이다. (코드 실행 후, 2를 입력 시 해�
         print("특성방정식의 해를 먼저 계산해주세요.")
         return
 
-      n = len(self.char_eq_roots)
       k = sp.symbols('n')
-      terms=[]
+      terms=[] #일반항은 각각의 계수*terms의 원소 들의 합으로 표현할 수 있다. 이때, terms는 특성방정식의 해와 중복도를 이용함
       for a, b in self.char_eq_roots.items():
-        if b==1:
+        if b==1: #중복도가 1인 경우, 해당 근에 n제곱한 뒤, terms에 추가한다.
           terms.append(a**k)
-        elif b!=1:
+        elif b!=1: #중복도가 1보다 큰 경우, 해당 근에 n제곱한 뒤, b의 값만큼 n제곱을 한 뒤 각각을 terms에 추가한다.
           for j in range(b):
             terms.append(k**j * a**k)
 
-      x = sp.symbols(f'x:{len(terms)}')
+      x = sp.symbols(f'x:{len(terms)}') 
 
-      equation = sum(x[j] * terms[j] for j in range(len(terms)))
+      equation = sum(x[j] * terms[j] for j in range(len(terms))) #일반항은 각각의 계수*terms의 원소들의 합이다.
       equations = []
 
       for i in range(1, len(self.initial_values)+1):
-        equations.append(sp.Eq(equation.subs(k,i),self.initial_values[i-1]))
+        equations.append(sp.Eq(equation.subs(k,i),self.initial_values[i-1])) #위 equation에 각각의 초기항 대입하면 이들이 초기항의 데이터값과 같다. 이에 대한 연립방정식 
 
-      constants=sp.solve(equations)
-
+      constants=sp.solve(equations) #연립방정식을 풀면, 각각의 계수가 나온다. 이때, constants는 x0, x1,...,를 keys, 각 계수의 값을 values로 갖는 딕셔너리이다.
       general_solution_terms=[]
       for term, constant in zip(terms, constants.values()):
         general_solution_terms.append(constant * term)
@@ -191,8 +189,9 @@ main 함수에서의 3번 함수이다. (코드 실행 후, 3을 입력 시 해�
         n = int(input("계산 결과를 구하고 싶은 항을 입력하세요: "))
         if n<=0:
           print("잘못된 입력입니다. 다시 시도해주세요")
+          return
         else:
-          specific_term = self.general_solution.subs(sp.symbols('n'),n).evalf(n=15)  # 특정 자릿수까지 평가하여 실수 부분만 추출
+          specific_term = self.general_solution.subs(sp.symbols('n'),n).evalf(n=15) 
           print(f"F{n}의 값은 {specific_term}입니다.")
 
       except ValueError:
@@ -257,7 +256,7 @@ def main(): # main 함수 : 1~6까지의 수를 입력하여 입력값에 해당
     }
 
     while True:
-        print("\n1. 변수 지정\n2. 점화식의 특성방정식 및 해 계산\n3. 점화식의 일반항 계산\n4. 점화식 대입\n5. 점화식의 그래프표현 및 비교\n6. 종료")
+        print("\n1. 변수 지정\n2. 점화식의 특성방정식 및 해 계산\n3. 점화식의 일반항 계산\n4. 점화식 대입\n5. 점화식의 그래프 시각화\n6. 종료")
         choice = input("실행할 함수를 선택하세요: ")
         if choice in actions:
             actions[choice]()
