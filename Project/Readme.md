@@ -56,10 +56,10 @@ import sys
 이후 후술할 메소드들에서 구한 데이터들을 각 변수들에 반환한다.
 
 self.coefficients : 선형점화식에서 이루어진 계수들을 저장하는 변수이다.
-<br/>(Ex. Fn=2*F(n-1),3*F(n-2)의 구조로 이루어진 선형점화식을 데이터로 갖는다면, self.coefficients = [2, 3]이 된다.)
+<br/>(Ex. $F_n=2F_{n-1},3F_{n-2}$의 구조로 이루어진 선형점화식을 데이터로 갖는다면, self.coefficients = [2, 3]이 된다.)
 
 self.initial_values : 선형점화식에서 정해진 초기항들의 값들을 저장하는 변수이다.
-<br/>(Ex, Fn=2*F(n-1),3*F(n-2) / F1=2, F2=5 라면, self.initial_values=[2, 5]이다.
+<br/>(Ex, $F_n=2F_{n-1}+3F_{n-2}$ / F1=2, F2=5 라면, self.initial_values=[2, 5]이다.
 
 self.char_eq_roots : 특성방정식의 근과 중복도를 각각 keys, values로 갖는 dictionary를 저장한다.
 <br/>(Ex, $F_n=(-2)F_{n-1}-1F_{n-2}$에서, 특성방정식의 근은 -1, 중복도는 2이다. 이때, self.char_eq_roots={-1 : 2}가 된다.
