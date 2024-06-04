@@ -62,9 +62,9 @@ self.initial_values : 선형점화식에서 정해진 초기항들의 값들을 
 <br/>(Ex, $F_n=2F_{n-1}+3F_{n-2}$ / F1=2, F2=5 라면, self.initial_values=[2, 5]이다.
 
 self.char_eq_roots : 특성방정식의 근과 중복도를 각각 keys, values로 갖는 dictionary를 저장한다.
-<br/>(Ex, $F_n=(-2)F_{n-1}-1F_{n-2}$에서, 특성방정식의 근은 -1, 중복도는 2이다. 이때, self.char_eq_roots={-1 : 2}가 된다.
+<br/>(Ex, $F_n=-2F_{n-1}-1F_{n-2}$에서, 특성방정식의 근은 -1, 중복도는 2이다. 이때, self.char_eq_roots={-1 : 2}가 된다.
 
-self.general_solution : 점화식의 일반항을 유도하, 해당 일반항을 저장한다.
+self.general_solution : 점화식의 일반항을 유도한 뒤, 해당 일반항을 저장한다.
 
   ### 3) set_variables
   ```
@@ -73,6 +73,17 @@ self.general_solution : 점화식의 일반항을 유도하, 해당 일반항을
         n = int(input("변수의 개수를 입력하세요 (ex. 2 => Fn=Fn-1+Fn-2): "))
         self.coefficients = [sp.Rational(input(f"계수 a{i+1}을(를) 입력하세요: ")) for i in range(n)]
         self.initial_values = [sp.Rational(input(f"F{i+1}을(를) 입력하세요: ")) for i in range(n)]
-        self.calculated_values = {i: self.initial_values[i] for i in range(n)}
         print("변수가 성공적으로 지정되었습니다.")
 ```
+
+main 함수에서의 1번 함수이다. (코드 실행 후, 1을 입력 시 해당 함수가 실행된다.)
+
+위 함수에서, 점화식을 설정하고 각 데이터들을 변수에 반환하는 기능을 한다.
+
+처음 n은 항의 개수이다. 구하고자 하는 선형점화식의 항의 개수를 입력하면 된다. 
+<br/>(ex. n=3이면, $F_n=a_1F_{n-1}+a_2F{n-2}+a_3F{n_3}$꼴의 선형점화식을 가짐. n=2이면, $F_n=a_1F_{n-1}+a_2F{n-2}$꼴의 선형점화식을 가짐.)
+
+이후, 각 점화식의 계수와 초기항의 값들을 입력한다.
+<br/>(ex. $n=2, a_1=1, a_2=1, F_1=1, F_2=1$으로 설정하면, $F_n=F_{n-1}+F_{n-2} / F1=1, F2=1$(피보나치 수열)의 선형점화식으로 설정 가능)
+
+
