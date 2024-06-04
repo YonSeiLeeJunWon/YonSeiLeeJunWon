@@ -19,7 +19,7 @@
 ## 3. 코드 작성방법 및 설명
 
   ### 1) import
-     <br/><img width="300" alt="import" src="https://github.com/SungchulLee/probability/assets/170498248/69ee685d-faca-4908-8af6-aa667c0f4fc1">
+     <img width="300" alt="import" src="https://github.com/SungchulLee/probability/assets/170498248/69ee685d-faca-4908-8af6-aa667c0f4fc1">
      <br/> (1) numpy : 점화식의 일반항을 유도하고, 이를 그래프로 옮기는 코드를 작성하는 과정에서, np.arange을 이용해 x축에 변수를 추가해주었다.
      <br/> (2) matplotlib.pyplot : 점화식의 일반항을 그래프로 그리는 과정에서 matplotlib 모듈을 사용하였다.
      <br/> (3) sympy : 변수를 지정하고, 방정식을 설정하고, 방정식의 해를 구하기 위해 해당 모듈을 사용하였다.
