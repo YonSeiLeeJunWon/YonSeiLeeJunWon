@@ -167,7 +167,37 @@ main 함수에서의 3번 함수이다. (코드 실행 후, 3을 입력 시 해�
 
 우선, 특성방정식의 해의 n제곱에 관한 일차결합으로 나타내기 전에, terms라는 list에 각 특성방정식의 해의 n제곱에 해당하는 데이터들을 넣어주었다.
 
-이론적 배경에 의하면, 중복수이다.
+이론적 배경에 의해, 중복도가 1이라면, 해당 근의 n제곱을 terms라는 list의 데이터로 append시켰다. 중복도가 1보다 크다면, 해당 근의 n제곱에 중복도의 크기만큼 n제곱한 각 데이터들을 terms라는 list의 데이터로 append시켰다.
+<br/>(ex. 해 : 2 / 중복도 : 1 => $2^n$을 list의 원소로 append 시킴 | 해 : 3 / 중복도 : 3 => $3^n, n*3^n, n^2*3^n$을 list의 원소로 append 시킴)
+
+이후, x에 $x_0, x_1, ..., x_{n-1}$이라는 기호변수 데이터를 넣어주고 x와 terms의 곱을 더해주어 특성방정식의 해의 n제곱에 관한 일차결합을 나타내주었다. 이를 equation이라는 변수에 대입하였다.
+
+이후에 해당 equation에서 n을 각각 1,2,...를 대입한 데이터들을 equations에 넣어주었다.
+
+이제 equations를 좌항, 해당 선형점화식 초기항 데이터 값을 우항으로 갖는 연립방정식을 세운 뒤, 이를 sp.solve로 풀어주면 $x_0, x_1, ..., x_{n-1}$의 변수에 대한 데이터 값을 얻을 수 있다. 이를 constants라는 변수에 대입하였다. constants는 각 $x_n$을 keys, $x_n$의 값을 values로 갖는 dictionary이다.
+
+이제 constants와 terms의 곱을 전부 더해주어 선형점화식의 일반항에 대한 값을 얻을 수 있었다. 또한, 해당 점화식의 일반항을 출력해주었다.
+
+  ### 6) compute_specific_term
+  ```
+    def compute_specific_term(self): #4번 점화식의 값 대입 함수 : 3번에서 구한 점화식의 일반항을 통해, 점화식의 n번째 항에 해당하는 값을 계산한다.
+      if not self.general_solution:
+        print("점화식의 일반항을 먼저 계산해주세요.")
+        return
+
+      try:
+        n = int(input("계산 결과를 구하고 싶은 항을 입력하세요: "))
+        if n<0:
+          print("잘못된 입력입니다. 다시 시도해주세요")
+        elif n==0:
+          print(f"F{n}의 값은 0입니다")
+        else:
+          specific_term = self.general_solution.subs(sp.symbols('n'),n).evalf(n=15)  # 특정 자릿수까지 평가하여 실수 부분만 추출
+          print(f"F{n}의 값은 {specific_term}입니다.")
+
+      except ValueError:
+        print("잘못된 입력입니다. 다시 시도해주세요.")
+```
 
 만약 3번 함수를 실행하지 않고, 4번 함수를 실행할 시, 점화식의 일반항에 대한 데이터가 없기 때문에 "점화식의 일반항을 먼저 계산해주세요."라는 문구와 함께 return된다.
 
@@ -175,7 +205,8 @@ main 함수에서의 3번 함수이다. (코드 실행 후, 3을 입력 시 해�
 
 이후, 해당 데이터값을 직접 출력하게된다.
 
-  ### 6) plot_solution
+
+  ### 7) plot_solution
   ```
     def plot_solution(self): # 3번에서 구한 점화식의 일반항을 그래프로 나타낸다.
         if not self.general_solution:
@@ -205,7 +236,6 @@ main 함수에서의 5번 함수이다. (코드 실행 후, 5를 입력 시 해�
 3번 함수에서 얻은 점화식의 일반항을 그래프로 시각화하는 함수이다.
 
 만약 3번 함수를 실행하지 않고, 5번 함수를 실행할 시, 점화식의 일반항에 대한 데이터가 없기 때문에 "점화식의 일반항을 먼저 계산해주세요."라는 문구와 함께 return된다.
-
 
 
 
