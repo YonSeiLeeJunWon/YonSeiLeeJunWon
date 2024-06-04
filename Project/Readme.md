@@ -19,6 +19,6 @@
 ## 3. 코드 작성방법 및 설명
 
   1) import
-     <br/><img width="176" alt="import" src="https://github.com/SungchulLee/probability/assets/170498248/69ee685d-faca-4908-8af6-aa667c0f4fc1">
+     <br/><img width="300" alt="import" src="https://github.com/SungchulLee/probability/assets/170498248/69ee685d-faca-4908-8af6-aa667c0f4fc1">
 
      
