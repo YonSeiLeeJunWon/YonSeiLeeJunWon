@@ -41,7 +41,10 @@ import sys
    
    (e) `sp.lambdify(x, fct, 'numpy')` : `x`라는 변수를 갖는 `fct` 표현식을 실제 계산에 사용할 수 있도록 파이썬 함수로 변환할 수 있다. (Ex. `f = sp.lambdify(x, sp.sin(x), 'numpy')`로 지정한다면, `f(np.pi/2)`는 1이라는 값을 갖는다.
 
-4. sys : `sys.exit()`코드를 이용해, 프로젝트의 코드를 종료하게 만들었다.
+   (f) eqn.subs(x, 1) : 기호변수에 특정한 값을 대입하거나, 다른 기호변수로 대체할 수 있는 메소드이다.
+   <br/> (ex. eqn=$x^2+5$ => eqn.subs(x,2)=$2^2+5=9$ / eqn.subs(x,t)=$t^2+5$
+
+5. sys : `sys.exit()`코드를 이용해, 프로젝트의 코드를 종료하게 만들었다.
 
 본격적인 설명에 앞서, 정의한 메소드, 함수들은 RecurrenceRelation 클래스 안에 있다.
   ### 2) __init__
@@ -106,17 +109,105 @@ main 함수에서의 1번 함수이다. (코드 실행 후, 1을 입력 시 해�
 
 main 함수에서의 2번 함수이다. (코드 실행 후, 2를 입력 시 해당 함수가 실행된다.)
 
-1번 함수에서 지정한 선형점화식 변수들을 이용해서 특성방정식을 유도하고 특성방정식의 해 및 중복도를 계산하는 메소드다.
+1번 함수에서 지정한 선형점화식 변수들을 이용해서 특성방정식을 유도하고 특성방정식의 해 및 중복도를 계산하는 함수이이다.
 
 만약 1번 함수를 실행하지 않고, 2번 함수를 실행할 시, 설정한 선형점화식이 없기 때문에 "변수 지정을 먼저 해주세요."라는 문구와 함께 return된다.
 
 위 코드에서, x는 기호변수 x로 작동한다. LHS는 특성방정식의 좌항으로, 설정한 선형점화식을 변수 x에 관한 식으로 변환한 뒤, 이들을 전부 좌항으로 이항한 값이다.
 <br/>(ex. $F_n=F_{n-1}+F_{n-2} (피보나치 수열)$이라면, $x^n=x^{n-1}+x^{n-2}$가 되고, LHS는 이들을 전부 좌항으로 이항한 $x^n-x^{n-1}-x^{n-2}$가 된다.)
 
-따라서, LHS=$x^n - \left( \sum_{i=0}^{n-1} a_ix^{n-1-i} \right)$로 표현된다.
+따라서, 위와 같은 식으로 LHS 변수를 지정했다.
 
 이에 따라, 우항은 0이 되므로 특성방정식은 sp.Eq(LHS,0)이 된다.
 
-이후, sp.roots를 통해 해당 방정식을 계산하고 특성방정식과 그 해를 출력하였다.
+이후, sp.roots를 통해 해당 방정식을 계산하고 특성방정식의 해와 중복도를 각각 keys와 values로 갖는 dictionary를 self.char_eq_roots에 저장하고 특성방정식과 해당 dictionary를 출력하였다.
 
-$\left( \sum_{k=1}^n a_k b_k \right)^2 \leq \left( \sum_{k=1}^n a_k^2 \right) \left( \sum_{k=1}^n b_k^2 \right)$
+  ### 5) compute_general_term
+```
+    def compute_general_term(self): #3번 점화식의 일반항 계산 함수 : 2번 특성방정식 및 해 계산  함수를 통해 나온 해(근)을 통해, 점화식의 일반항을 도출한다.
+      if self.char_eq_roots==[]:
+        print("특성방정식의 해를 먼저 계산해주세요.")
+        return
+
+      n = len(self.char_eq_roots)
+      k = sp.symbols('n')
+      terms=[]
+      for a, b in self.char_eq_roots.items():
+        if b==1:
+          terms.append(a**k)
+        elif b!=1:
+          for j in range(b):
+            terms.append(k**j * a**k)
+
+      x = sp.symbols(f'x:{len(terms)}')
+
+      equation = sum(x[j] * terms[j] for j in range(len(terms)))
+      equations = []
+
+      for i in range(1, len(self.initial_values)+1):
+        equations.append(sp.Eq(equation.subs(k,i),self.initial_values[i-1]))
+
+      constants=sp.solve(equations)
+
+      general_solution_terms=[]
+      for term, constant in zip(terms, constants.values()):
+        general_solution_terms.append(constant * term)
+
+      self.general_solution = sum(general_solution_terms)
+
+      print("점화식의 일반항 계산 결과:")
+      print(f"Fn = {self.general_solution}")
+```
+
+main 함수에서의 3번 함수이다. (코드 실행 후, 3을 입력 시 해당 함수가 실행된다.)
+
+2번 함수에서 얻은 특성방정식의 근과 중복도, 1번 함수에서 얻은 점화식의 초기항의 값을 이용하여 점화식의 일반항을 유도하는 함수이다.
+
+만약 2번 함수를 실행하지 않고, 3번 함수를 실행할 시, 특성방정식의 해와 중복도에 대한 데이터가 없기 때문에 "특성방정식의 해를 먼저 계산해주세요."라는 문구와 함께 return된다.
+
+우선, 특성방정식의 해의 n제곱에 관한 일차결합으로 나타내기 전에, terms라는 list에 각 특성방정식의 해의 n제곱에 해당하는 데이터들을 넣어주었다.
+
+이론적 배경에 의하면, 중복수이다.
+
+만약 3번 함수를 실행하지 않고, 4번 함수를 실행할 시, 점화식의 일반항에 대한 데이터가 없기 때문에 "점화식의 일반항을 먼저 계산해주세요."라는 문구와 함께 return된다.
+
+계산 결과를 구하고 싶은 항을 입력하면, subs()매소드를 통해, n에 관한 점화식의 일반항에 해당 값을 직접 대입하고 이를 specific_term에 저장한다. 이때, evalf(n=15) 메소드를 이용해, 해당 항의 계산 결과 값을 15자리로 계산해준다.
+
+이후, 해당 데이터값을 직접 출력하게된다.
+
+  ### 6) plot_solution
+  ```
+    def plot_solution(self): # 3번에서 구한 점화식의 일반항을 그래프로 나타낸다.
+        if not self.general_solution:
+            print("점화식의 일반항을 먼저 계산해주세요.")
+            return
+
+        try:
+            x = int(input("그래프로 항의 인덱스를 입력하세요: "))
+        except ValueError:
+            print("잘못된 입력입니다. 다시 시도해주세요.")
+            return
+
+        k = sp.symbols('n')
+        general_solution_func = sp.lambdify(k, self.general_solution, 'numpy')
+        n_values = np.arange( x + 1 )
+        general_solution_values = general_solution_func(n_values)
+
+        plt.plot(n_values, general_solution_values, label='General Solution')
+        plt.xlabel('n')
+        plt.ylabel('F(n)')
+        plt.title('Comparison of General Solution and Actual Recurrence')
+        plt.legend()
+        plt.show()
+```
+main 함수에서의 5번 함수이다. (코드 실행 후, 5를 입력 시 해당 함수가 실행된다.)
+
+3번 함수에서 얻은 점화식의 일반항을 그래프로 시각화하는 함수이다.
+
+만약 3번 함수를 실행하지 않고, 5번 함수를 실행할 시, 점화식의 일반항에 대한 데이터가 없기 때문에 "점화식의 일반항을 먼저 계산해주세요."라는 문구와 함께 return된다.
+
+
+
+
+
+
