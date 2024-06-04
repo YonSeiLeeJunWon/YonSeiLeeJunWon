@@ -1,5 +1,5 @@
 # 주제 : 선형점화식의 일반항 유도 및 그래프 시각화 프로젝트
-
+img width="239" alt="F5" src="https://github.com/SungchulLee/probability/assets/170498248/0b567782-36bf-45c8-ba7e-344fb434f144"
                                                             2021131016 이준원
 
 ## 1. 모티베이션(프로젝트를 하게 된 동기)
