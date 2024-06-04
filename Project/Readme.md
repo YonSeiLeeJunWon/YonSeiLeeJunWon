@@ -189,10 +189,8 @@ main 함수에서의 3번 함수이다. (코드 실행 후, 3을 입력 시 해�
 
       try:
         n = int(input("계산 결과를 구하고 싶은 항을 입력하세요: "))
-        if n<0:
+        if n<=0:
           print("잘못된 입력입니다. 다시 시도해주세요")
-        elif n==0:
-          print(f"F{n}의 값은 0입니다")
         else:
           specific_term = self.general_solution.subs(sp.symbols('n'),n).evalf(n=15)  # 특정 자릿수까지 평가하여 실수 부분만 추출
           print(f"F{n}의 값은 {specific_term}입니다.")
@@ -206,10 +204,11 @@ main 함수에서의 4번 함수이다. (코드 실행 후, 4를 입력 시 해�
 
 만약 3번 함수를 실행하지 않고, 4번 함수를 실행할 시, 점화식의 일반항에 대한 데이터가 없기 때문에 "점화식의 일반항을 먼저 계산해주세요."라는 문구와 함께 return된다.
 
+또한, 점화식의 초기항을 F1부터 시작했으므로, n<=0인 경우 "잘못된 입력입니다. 다시 시도해주세요"라는 문구와 함께 return된다.
+
 계산 결과를 구하고 싶은 항을 입력하면, subs()매소드를 통해, n에 관한 점화식의 일반항에 해당 값을 직접 대입하고 이를 specific_term에 저장한다. 이때, evalf(n=15) 메소드를 이용해, 해당 항의 계산 결과 값을 15자리로 계산해준다.
 
 이후, 해당 데이터값을 직접 출력하게된다.
-
 
   ### 7) plot_solution
   ```
@@ -226,7 +225,7 @@ main 함수에서의 4번 함수이다. (코드 실행 후, 4를 입력 시 해�
 
         k = sp.symbols('n')
         general_solution_func = sp.lambdify(k, self.general_solution, 'numpy')
-        n_values = np.arange( x + 1 )
+        n_values = np.arange(1, x + 1)
         general_solution_values = general_solution_func(n_values)
 
         plt.plot(n_values, general_solution_values, label='General Solution')
@@ -236,11 +235,14 @@ main 함수에서의 4번 함수이다. (코드 실행 후, 4를 입력 시 해�
         plt.legend()
         plt.show()
 ```
+
 main 함수에서의 5번 함수이다. (코드 실행 후, 5를 입력 시 해당 함수가 실행된다.)
 
 3번 함수에서 얻은 점화식의 일반항을 그래프로 시각화하는 함수이다.
 
 만약 3번 함수를 실행하지 않고, 5번 함수를 실행할 시, 점화식의 일반항에 대한 데이터가 없기 때문에 "점화식의 일반항을 먼저 계산해주세요."라는 문구와 함께 return된다.
+
+표현하고자 하는 그래프의 인덱스 값을 입력하게 된다.(ex. 15입력 시, F1, ..., F15에 대한 데이터값을 그래프로 시각화해줌) 이후에, sp.lambdify를 이용해 구한 선형점화식의 일반항을 함수로 만들어 주고 np.arange를 통해 x축의 값을 만든 다음, 각 데이터값들을 함수에 input했을 때의 output 데이터를 general_solution_values라는 변수에 넣어주었다. 이후, x축의 데이터와 y축의 데이터를 이용해서 유도해낸 점화식의 일반항 결과 값을 그래프로 시각화해주었다.
 
 
 
