@@ -49,13 +49,13 @@ class RecurrenceRelation:
           for j in range(b):
             terms.append(k**j * a**k)
 
-      x = sp.symbols(f'x:{len(terms)}') 
+      x = sp.symbols(f'x:{len(terms)}')
 
       equation = sum(x[j] * terms[j] for j in range(len(terms))) #일반항은 각각의 계수*terms의 원소들의 합이다.
       equations = []
 
       for i in range(1, len(self.initial_values)+1):
-        equations.append(sp.Eq(equation.subs(k,i),self.initial_values[i-1])) #위 equation에 각각의 초기항 대입하면 이들이 초기항의 데이터값과 같다. 이에 대한 연립방정식 
+        equations.append(sp.Eq(equation.subs(k,i),self.initial_values[i-1])) #위 equation에 각각의 초기항 대입하면 이들이 초기항의 데이터값과 같다. 이에 대한 연립방정식
 
       constants=sp.solve(equations) #연립방정식을 풀면, 각각의 계수가 나온다. 이때, constants는 x0, x1,...,를 keys, 각 계수의 값을 values로 갖는 딕셔너리이다.
       general_solution_terms=[]
@@ -78,7 +78,7 @@ class RecurrenceRelation:
           print("잘못된 입력입니다. 다시 시도해주세요")
           return
         else:
-          specific_term = self.general_solution.subs(sp.symbols('n'),n).evalf(n=15) 
+          specific_term = self.general_solution.subs(sp.symbols('n'),n).evalf(n=15)
           print(f"F{n}의 값은 {specific_term}입니다.")
 
       except ValueError:
@@ -100,10 +100,10 @@ class RecurrenceRelation:
         n_values = np.arange(1, x + 1)
         general_solution_values = general_solution_func(n_values)
 
-        plt.plot(n_values, general_solution_values, label='점화식')
+        plt.plot(n_values, general_solution_values, label='Recurrence Relation')
         plt.xlabel('n')
         plt.ylabel('F(n)')
-        plt.title('점화식의 특정 항의 값')
+        plt.title('Gerneral term of recurrence relation')
         plt.legend()
         plt.show()
 
